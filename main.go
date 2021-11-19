@@ -6,6 +6,7 @@ import (
 	"github.com/GokselSunar/go-todolist/database"
 	"github.com/GokselSunar/go-todolist/models"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -33,10 +34,14 @@ func setupRoutes(app *fiber.App) {
 	app.Get("/todos", models.GetTodos)
 	app.Post("/todos", models.CreateToDo)
 	app.Get("/todos/:id", models.GetTodoById)
+	app.Delete("/todos/:id", models.DeleleteTodo)
+	app.Put("/todos/:id", models.UpdatedTodo)
 }
 
 func main() {
 	app := fiber.New()
+	app.Use(cors.New())
+
 	initDatabase()
 
 	app.Get("/", helloworld)
